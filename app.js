@@ -66,3 +66,6 @@ app.post('/crear-torneo', async (req, res) => {
 });
 
 // Ruta GET para la página de inicio
+app.get('/', (req, res) => {
+    res.send('¡Bienvenido a mi aplicación de torneos!');
+});

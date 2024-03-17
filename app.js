@@ -11,18 +11,23 @@ app.use(bodyParser.json());
 // Obtener la API key desde la variable de entorno
 const API_KEY = process.env.API_KEY;
 
-// Registro como proveedor en la región LAS
-async function registrarProveedor(region, url) {
+// Crear un torneo
+async function crearTorneo(providerId, nombre) {
     try {
-        console.log('Registrando proveedor en la región:', region);
-        const response = await axios.post(`https://${region}.api.riotgames.com/lol/tournament-stub/v5/providers?api_key=${API_KEY}`, {
-            region: 'americas', // Cambia 'region' por 'americas'
-            url
+        console.log('Creando torneo:', nombre);
+        const response = await axios.post(`https://americas.api.riotgames.com/lol/tournament-stub/v5/tournaments?api_key=${API_KEY}`, {
+            name: nombre,
+            providerId
         });
-        console.log('Proveedor registrado exitosamente:', response.data);
-        return response.data.providerId;
+        console.log('Torneo creado exitosamente:', response.data);
+        const tournamentId = response.data.tournamentId;
+        
+        // Generar códigos de torneo
+        const codigos = await generarCodigosTorneo(tournamentId, 10); // Generar 10 códigos de torneo
+        
+        return { tournamentId, codigos };
     } catch (error) {
-        console.error('Error al registrar el proveedor:', error.response.data);
+        console.error('Error al crear el torneo:', error.response.data);
         throw error;
     }
 }
@@ -31,9 +36,14 @@ async function registrarProveedor(region, url) {
 app.post('/crear-torneo', async (req, res) => {
     try {
         console.log('Recibida solicitud para crear torneo:', req.body);
-        const providerId = await registrarProveedor('LAS', 'https://tournament123-326820419c99.herokuapp.com/');
-        console.log('ProveedorId obtenido:', providerId);
-        res.status(200).json({ mensaje: 'Torneo creado correctamente', providerId, tournamentId, codigos });
+        const proveedor = await registrarProveedor('LAS', 'https://tournament123-326820419c99.herokuapp.com/');
+        console.log('Proveedor obtenido:', proveedor);
+
+        const { tournamentId, codigos } = await crearTorneo(proveedor.providerId, 'Torneo de prueba');
+        console.log('Torneo creado:', tournamentId);
+        console.log('Códigos de torneo generados:', codigos);
+
+        res.status(200).json({ mensaje: 'Torneo creado correctamente', provider: proveedor, tournamentId, codigos });
     } catch (error) {
         console.error('Error al crear el torneo:', error.message);
         res.status(500).json({ error: 'Error al crear el torneo', mensaje: error.message });

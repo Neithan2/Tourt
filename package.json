@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {
   "name": "tourt",
   "version": "1.0.0",
@@ -22,3 +23,36 @@
     "express": "^4.18.3"
   }
 }
+=======
+{
+  "name": "tourt",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+<<<<<<< HEAD
+    "start": "node app.js",
+=======
+    "start": "node app.js", 
+>>>>>>> 897bbf252a5311b3c2f47370d55d47f21950f1d2
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "neithan",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Neithan2/Tourt.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Neithan2/Tourt/issues"
+  },
+  "homepage": "https://github.com/Neithan2/Tourt#readme",
+  "dependencies": {
+<<<<<<< HEAD
+    "axios": "^1.6.8",
+=======
+>>>>>>> 897bbf252a5311b3c2f47370d55d47f21950f1d2
+    "express": "^4.18.3"
+  }
+}
+>>>>>>> 93d0eceebfb67981bd45fa739da31e3ee346937b

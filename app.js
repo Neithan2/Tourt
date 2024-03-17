@@ -16,7 +16,7 @@ async function registrarProveedor(region, url) {
     try {
         console.log('Registrando proveedor en la región:', region);
         const response = await axios.post(`https://${region}.api.riotgames.com/lol/tournament-stub/v5/providers?api_key=${API_KEY}`, {
-            region,
+            region: 'americas', // Cambia 'region' por 'americas'
             url
         });
         console.log('Proveedor registrado exitosamente:', response.data);
@@ -33,7 +33,6 @@ app.post('/crear-torneo', async (req, res) => {
         console.log('Recibida solicitud para crear torneo:', req.body);
         const providerId = await registrarProveedor('LAS', 'https://tournament123-326820419c99.herokuapp.com/');
         console.log('ProveedorId obtenido:', providerId);
-        // Resto del código...
         res.status(200).json({ mensaje: 'Torneo creado correctamente', providerId, tournamentId, codigos });
     } catch (error) {
         console.error('Error al crear el torneo:', error.message);

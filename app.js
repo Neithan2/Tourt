@@ -7,6 +7,11 @@ const PORT = process.env.PORT || 3000;
 // Middleware para analizar el cuerpo de las solicitudes como JSON
 app.use(bodyParser.json());
 
+// Ruta GET para la página de inicio
+app.get('/', (req, res) => {
+  res.send('¡Bienvenido a mi aplicación de torneos!');
+});
+
 // Endpoint POST para crear un torneo
 app.post('/crear-torneo', (req, res) => {
   // Aquí procesas la solicitud para crear un torneo

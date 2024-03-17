@@ -8,10 +8,13 @@ const PORT = process.env.PORT || 3000;
 // Middleware para analizar el cuerpo de las solicitudes como JSON
 app.use(bodyParser.json());
 
+// Obtener la API key desde la variable de entorno
+const API_KEY = process.env.API_KEY;
+
 // Registro como proveedor en la región LAS
 async function registrarProveedor(region, url) {
     try {
-        const response = await axios.post(`https://${region}.api.riotgames.com/lol/tournament-stub/v5/providers?api_key=TU_API_KEY`, {
+        const response = await axios.post(`https://${region}.api.riotgames.com/lol/tournament-stub/v5/providers?api_key=${API_KEY}`, {
             region,
             url
         });
@@ -25,7 +28,7 @@ async function registrarProveedor(region, url) {
 // Crear un torneo
 async function crearTorneo(providerId, nombre) {
     try {
-        const response = await axios.post(`https://americas.api.riotgames.com/lol/tournament-stub/v5/tournaments?api_key=TU_API_KEY`, {
+        const response = await axios.post(`https://americas.api.riotgames.com/lol/tournament-stub/v5/tournaments?api_key=${API_KEY}`, {
             name: nombre,
             providerId
         });
@@ -39,7 +42,7 @@ async function crearTorneo(providerId, nombre) {
 // Generar códigos de torneo
 async function generarCodigosTorneo(tournamentId, cantidad) {
     try {
-        const response = await axios.post(`https://americas.api.riotgames.com/lol/tournament-stub/v5/codes?api_key=TU_API_KEY`, {
+        const response = await axios.post(`https://americas.api.riotgames.com/lol/tournament-stub/v5/codes?api_key=${API_KEY}`, {
             tournamentId,
             count: cantidad
         });
@@ -63,11 +66,3 @@ app.post('/crear-torneo', async (req, res) => {
 });
 
 // Ruta GET para la página de inicio
-app.get('/', (req, res) => {
-    res.send('¡Bienvenido a mi aplicación de torneos!');
-});
-
-// Inicia el servidor
-app.listen(PORT, () => {
-    console.log(`Servidor escuchando en el puerto ${PORT}`);
-});

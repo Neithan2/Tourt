@@ -2,13 +2,11 @@
   "name": "tourt",
   "version": "1.0.0",
   "description": "",
-<<<<<<< HEAD
   "main": "app.js",
   "scripts": {
+<<<<<<< HEAD
     "start": "node app.js",
 =======
-  "main": "app.js", 
-  "scripts": {
     "start": "node app.js", 
 >>>>>>> 897bbf252a5311b3c2f47370d55d47f21950f1d2
     "test": "echo \"Error: no test specified\" && exit 1"

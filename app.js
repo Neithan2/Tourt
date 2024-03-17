@@ -14,10 +14,12 @@ const API_KEY = process.env.API_KEY;
 // Registro como proveedor en la región LAS
 async function registrarProveedor(region, url) {
     try {
+        console.log('Registrando proveedor en la región:', region);
         const response = await axios.post(`https://${region}.api.riotgames.com/lol/tournament-stub/v5/providers?api_key=${API_KEY}`, {
             region,
             url
         });
+        console.log('Proveedor registrado exitosamente:', response.data);
         return response.data.providerId;
     } catch (error) {
         console.error('Error al registrar el proveedor:', error.response.data);
@@ -25,45 +27,20 @@ async function registrarProveedor(region, url) {
     }
 }
 
-// Crear un torneo
-async function crearTorneo(providerId, nombre) {
-    try {
-        const response = await axios.post(`https://americas.api.riotgames.com/lol/tournament-stub/v5/tournaments?api_key=${API_KEY}`, {
-            name: nombre,
-            providerId
-        });
-        return response.data.tournamentId;
-    } catch (error) {
-        console.error('Error al crear el torneo:', error.response.data);
-        throw error;
-    }
-}
-
-// Generar códigos de torneo
-async function generarCodigosTorneo(tournamentId, cantidad) {
-    try {
-        const response = await axios.post(`https://americas.api.riotgames.com/lol/tournament-stub/v5/codes?api_key=${API_KEY}`, {
-            tournamentId,
-            count: cantidad
-        });
-        return response.data;
-    } catch (error) {
-        console.error('Error al generar códigos de torneo:', error.response.data);
-        throw error;
-    }
-}
-
 // Endpoint POST para crear un torneo
 app.post('/crear-torneo', async (req, res) => {
     try {
+        console.log('Recibida solicitud para crear torneo:', req.body);
         const providerId = await registrarProveedor('LAS', 'https://tournament123-326820419c99.herokuapp.com/');
-        const tournamentId = await crearTorneo(providerId, 'Torneo de prueba');
-        const codigos = await generarCodigosTorneo(tournamentId, 10); // Generar 10 códigos de torneo
+        console.log('ProveedorId obtenido:', providerId);
+        // Resto del código...
         res.status(200).json({ mensaje: 'Torneo creado correctamente', providerId, tournamentId, codigos });
     } catch (error) {
+        console.error('Error al crear el torneo:', error.message);
         res.status(500).json({ error: 'Error al crear el torneo', mensaje: error.message });
     }
 });
+
 
 // Ruta GET para la página de inicio
 app.get('/', (req, res) => {

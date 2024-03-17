@@ -17,7 +17,18 @@ async function crearTorneo(providerId, nombre) {
         console.log('Creando torneo:', nombre);
         const response = await axios.post(`https://americas.api.riotgames.com/lol/tournament-stub/v5/tournaments?api_key=${API_KEY}`, {
             name: nombre,
-            providerId
+            providerId,
+            allowedParticipants: {
+                maxSpectators: 0,
+                maxTeams: 100,
+                maxIndividuals: 100,
+            },
+            enoughPlayers: true,
+            mapType: "HOWLING_ABYSS",
+            metadata: "",
+            pickType: "BLIND_PICK",
+            spectatorType: "",
+            teamSize: 2 // Cambiar a 2 si el torneo es para 2 personas
         });
         console.log('Torneo creado exitosamente:', response.data);
         const tournamentId = response.data.tournamentId;
@@ -31,6 +42,7 @@ async function crearTorneo(providerId, nombre) {
         throw error;
     }
 }
+
 
 // Endpoint POST para crear un torneo
 app.post('/crear-torneo', async (req, res) => {
